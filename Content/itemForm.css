@@ -1,0 +1,126 @@
+@media only screen and (max-width:500px){
+    body .modalForm select, body .modalForm input{
+        width:75%;
+    }
+
+    body .modalForm label{
+        font-size: 1em;
+        font-weight: 800;
+        width:90%;
+    }
+    
+    .modalForm .textForm{
+        font-size: 1em;
+        width: 90%;
+    }
+    body .formLabel{
+        display: block;
+        width: 100%;
+        clear: both;
+    }
+
+}
+
+.mandSpan{
+    display: block;
+    width: 100%;
+    font-size: 1.2em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: maroon;
+}
+
+.formLabel{
+    display: block;
+    width: 100%;
+    margin-left: 30%;
+}
+
+.modalForm{
+    padding:5px 5px;
+    margin: auto -2%;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1em;
+}
+
+.modalForm input,.modalForm select{
+    padding:10px 15px;
+    margin:5px 5%;
+    width: 70%;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+}
+
+.modalForm .textForm{
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 70%;
+    resize:none;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.modalForm input[type=radio],.modalForm input[type=checkbox]{
+    width:15px;
+    width: 5%;
+    height:15px;
+    margin:5px;
+}
+
+.modalForm button{
+    width:50%;
+    margin-top: 20px;
+    padding: 10px 5px;
+    font-size: 1.5em;
+    border-radius: 15px;
+    /*background-color: aquamarine;*/
+}
+
+.modalForm label{
+    width: 90%;
+    display: inline-block;
+    padding: 10px 15px; 
+    margin: 5px 15px;
+    font-size: 1.2em;
+    text-align: center;
+    color:black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.radioVal{
+    color:white;
+}
+
+.modalForm .button3{
+    padding-left: 30px;
+    padding: 8px 20px;
+    font-size: 1.1em;
+    width:18%;
+    background-position: 25px 8px;
+}
+
+.modalForm .button3:hover{
+    background-color: bisque;
+}
+
+.modalForm table{
+    vertical-align: middle;
+    text-align: center;    
+}
+
+.showNewImg{
+    display: inline-block;
+    transition: height 1s;
+}
+
+.radVal{
+    display: inline-block;
+    position: relative;
+    height: 40px;
+    
+    padding-bottom: 10px;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

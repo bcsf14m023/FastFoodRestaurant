@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using FastFoodRestaurant.Models
+@section script{
+    <script type="text/javascript" src="~/scripts/signup.js"></script>
+}
+@section css{
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background-image: url("../../../images/carousel/5.jpg");
+        }
+    </style>
+}
+
+<div class="bgColor">
+    <div id="mainCon" class="container">
+        <h2 id="aboutH" class="text-center heading">Admin SignUp</h2>
+        <hr class="style18" />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-xs-12 col-sm-5 text-center right-panel">
+                    <form class="contact-form" method="post" action="/Admin/AdminSignUp">
+                        <div class="row">
+                            <label for="usrname" class="sr-only"> Username</label>
+                            <input id="username" placeholder="Username" class="input" name="username" type="text" onblur="userName()" value="" size="30" />
+                        </div>
+                        <div class="row">
+                            <label for="password" class="sr-only"> Password</label>
+                            <input id="password" placeholder="Password" class="input" name="password" type="password" value="" size="30" />
+                        </div>
+                        <div class="row">
+                            <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                            <input id="confirmPassword" placeholder="Confirm Password" class="input" name="confirmPassword" type="password" value="" size="30" />
+                        </div>
+                        <input id="submit_button" class="btn-success" type="submit" value="Create Account" />
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

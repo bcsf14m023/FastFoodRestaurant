@@ -1,0 +1,54 @@
+﻿@using FastFoodRestaurant.Models
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Home/Index">
+                <img id="favicon" src="~/images/favicon.png" />
+                <span>Fast Food Restaurant</span>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Home/Index">HOME</a></li>
+                <!--Dropdown for item categories-->
+                <li class="dropdown" id="navDrop">
+                    <a class="dropdown-toggle">
+                        MENU
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu menuCat" id="menuDrop">
+                        <li><a href="/Home/Categories">View Categories</a></li>
+                        <li><a href="/Home/Items">All Items</a></li>
+                        @{
+                            FastFoodRestaurantEntities db = new FastFoodRestaurantEntities();
+                            List<CATEGORY> ls= db.CATEGORies.OrderBy(c => c.CAT_ID).ToList();
+                            foreach (CATEGORY c in ls)
+                            {
+                                <li><a href='/Home/Items?cat=@c.CAT_ID'>@c.NAME</a></li>
+                            }
+                        }
+                    </ul>
+                </li>
+
+                <li><a href="/Home/Services">SERVICES</a></li>
+                <li><a href="/Home/Gallery">GALLERY</a></li>
+                <li class="dropdown">
+                    <a id="more" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        MORE
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Home/About">ABOUT US</a></li>
+                        <li><a href="/Home/Contact">CONTACT US</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

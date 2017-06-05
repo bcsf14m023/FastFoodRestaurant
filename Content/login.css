@@ -1,0 +1,160 @@
+@media only screen and (max-width: 500px) {
+        body .right-panel{
+            margin: auto;
+            margin-bottom: 10%;
+        }
+
+        body #contact-form{
+            width:90%;
+            padding: 5px 10px;
+        }
+
+        body .contact-form input{
+            width:90%;
+            font-size: 1.2em;
+        }
+
+        .contact-form input:focus ,.contact-form textarea:focus{
+            box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+            width: 950%;
+            transition:width 1s;
+        }
+        
+        body a.no-login{
+            padding: 10px 10px;
+            margin:20px;
+            font-size: 1em;
+        }
+}
+
+@media only screen and (max-width: 767px) {
+        body .right-panel{
+            margin: auto;
+        }
+        body #contact-form{
+            width:90%;
+            font-size: 1.2em;
+            padding: 10px 10px;
+        }
+
+        body .contact-form input{
+            width:60%;
+            font-size: 1.5em;
+        }
+
+        .contact-form input:focus ,.contact-form textarea:focus{
+            box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+            width: 70%;
+            transition:width 1s;
+        }
+        body a.no-login{
+            padding: 15px 12px;
+            margin: 20px;
+            font-size: 1.2em;
+        }
+}
+
+body{
+    background-repeat: repeat-y;
+    background-size: 100% 710px;
+    height: auto;
+}
+
+#mainCon{
+    background-color: rgba(0,0,0,0.3);
+    height: auto;
+    padding: 5% 20px;    
+}
+
+
+.right-panel{
+    background-color: rgba(0,0,0,.6);
+    border-radius: 15px;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    margin: auto 28%;
+}
+
+#contact-form{
+    width:100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 20px;    
+    text-align: center;
+}
+
+.contact-form input,.contact-form textarea{    
+    padding:10px 15px;
+    resize: none;
+    margin:10px 10px;
+    width:90%;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.contact-form input{
+    width:70%;
+    font-size: 1.5em;
+}
+
+.contact-form input[type=submit]{
+    margin: 3% auto;
+    margin-top: 10%;
+    width:50%;
+}
+
+.contact-form #submit_button{
+    margin: 3% auto;
+    margin-top: 25px;
+    padding:10px 15px;
+    width:70%;
+    font-size:1.6em;
+    font-weight: 700;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.contact-form #submit_button:focus{
+    width: 75%;
+	transition:width 1s;
+}
+
+.contact-form #submit_button:hover{
+    box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+}
+
+#changePasswd{
+    margin-top: 20px;   
+}
+.contact-form input:focus ,.contact-form textarea:focus{
+    box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+    width: 75%;
+	transition:width 1s;
+}
+
+.contact-text{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    letter-spacing: 1px;
+    font-size: 1.2em;
+    color: bisque;
+    margin: 15px 30px;
+    text-align: justify;
+    margin-top: 15px;
+}
+
+.contact-title{
+    font-weight: bold;
+    color: aquamarine;   
+}
+
+.glyph{
+    color: darkkhaki;
+    width: 30px;
+}
+
+a.no-login{
+    text-decoration: none;
+    padding: 15px 30px;
+    margin:30px;
+    font-size: 1.5em;
+}

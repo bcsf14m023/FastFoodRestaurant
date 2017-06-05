@@ -1,0 +1,90 @@
+@media only screen and (max-width: 767px) {
+    body .main-text{
+        margin: auto 4%;
+        width: 100%;    
+        margin-bottom: 10%;        
+    }
+    body .last-item{
+        margin: auto 2%;
+    }
+}
+
+body{
+    background-repeat: repeat-y;
+    background-size: 100% 710px;
+    height: auto;
+}
+
+.addColor{
+    filter: grayscale(0%);
+    transition: filter 1s;
+    border: 2px solid white;
+}
+
+.greyScale{
+    filter: grayscale(100%);
+}
+
+.bgColor .container{
+    margin: auto 5%;
+}
+
+.service-item{
+    background-color: rgba(255,255,255,.2);
+    border-radius: 15px;
+    margin: auto 13px;
+    margin-bottom: 5%;
+    cursor: pointer;
+}
+
+.service-item:hover{
+    box-shadow: 2px 3px 7px yellowgreen;
+}
+.service-img{
+    min-width: 100%;
+    max-height: 300px;
+    min-height: 300px;
+    margin: 5% auto;
+    
+}
+
+#mainCon{
+    background-color: rgba(0,0,0,0.3);
+    height: auto;
+    margin: auto;
+}
+
+.service, .caption p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-weight: 400;
+    background-color: rgba(50,0,0,.3);
+    border-radius: 10px;
+    text-shadow: 6px 5px 6px bisque;
+    text-shadow: 1px 1px 5px black;
+    font-size: 1em;
+}
+
+.caption{
+    display: none;
+}
+
+#aboutH{
+    margin-top: 120px;
+}
+
+.main-text{
+    margin-bottom: 5%;
+    margin-left: 10px;
+}
+
+.service{
+    color: azure;
+    font-weight: 600;
+    font-size: 1.3em;
+}
+
+.last-item{
+    margin:auto 22%;
+    margin-bottom: 5%;
+}

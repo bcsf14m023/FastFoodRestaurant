@@ -1,0 +1,21 @@
+body {
+    width: 100%;
+    height: auto;
+}
+
+.bgColor{
+	background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: auto;
+    position: relative;    
+}
+
+.container p{
+    display: block;
+}
+
+.bgColor .container{
+    background-color: rgba(0,0,0,0.3);
+    height: auto;
+    padding: 10% 5%;
+}

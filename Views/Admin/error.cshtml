@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section css{
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background-image: url("../../../images/carousel/1.jpg");
+        }
+    </style>
+}
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+            $('#logout').click(function () {
+                confirmModal("Logout Confirmation", "Are you sure you want to LOGOUT?");
+            });
+
+            $('#no').click(function () {
+                $('#confirmDialog').modal('hide');
+            });
+
+            $('#yes').click(function () {
+                $('#confirmDialog').modal('hide');
+                var chPT = 'Update Password Confirmation';
+                var logout = 'Logout Confirmation';
+
+                // alert($('#confirmTitle').text());
+
+                if ($('#confirmTitle').text() === logout) {
+                    
+                    $.get("Logout", function (response) {
+                        if (response.rv == 1) {
+                            successModal("Task successful", "Now you are logged out.<br/>Redirecting....");
+                            window.location.href = '/Home/Index';
+                        }
+                        else if (response.rv == 0) {   // Session Expired
+                            failureModal('Error', response.text);
+                            setTimeout(function () {
+                                window.location.href = '/Home/NoLogin';
+                            }, 1000);
+                        }
+                    });
+                }
+                else if ($('#confirmTitle').text() === chPT) {
+                    var old = $('#oldPassword').val();
+                    var newP = $('#newPassword').val();
+                    var confirm = $('#confirmPassword').val();
+                    changePassword(old, newP, confirm);
+                }
+            });
+        });
+    </script>
+}
+
+<div class="bgColor">
+    <div id="mainCon" class="container  text-center">
+        <div class="jumbotron" style="background:rgba(0,0,0,0);height:inherit;">
+            <h1 id="aboutH" class="text-center">@ViewBag.ErrorTitle</h1>
+            <hr class="style18" />
+            <br />
+            <p class="main-text" style="text-align:center">@ViewBag.ErrorText</p>
+            <br />
+            <center>
+                <a href="/Home/Index" class="btn-lg btn-danger no-login">Home</a>
+            </center>
+        </div>
+    </div>
+</div>

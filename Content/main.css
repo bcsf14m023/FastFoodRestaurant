@@ -1,0 +1,106 @@
+@media (max-width: 500px) {
+    body .main-text{
+      font-size: 1.1em; /* Hide the carousel text when the screen is less than 600 pixels wide */
+    }
+    body #aboutH{
+        margin-top: 50px;
+    }
+}
+@media (max-width: 767px) {
+    body .main-text{
+      font-size: 1.4em; /* Hide the carousel text when the screen is less than 600 pixels wide */
+    }
+}
+
+.mainCon{
+    min-height:598px;
+    height: auto;
+}
+
+h2 .text-center.heading, #aboutH{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 2px;
+    font-size: 2.5em;
+    text-shadow: 2px 3px 5px black;
+    margin: 50px auto;
+    margin-bottom: 30px;
+    color: antiquewhite;
+    font-weight: 800;
+}
+
+
+#aboutH{
+    margin-top: 70px;
+}
+
+.form-heading{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.5em;
+    margin: 10px auto;
+    color: antiquewhite;
+    font-weight: 500;
+}
+
+.main-text{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1px;
+    font-size: 1.5em;
+    color: white;
+    margin: auto 30px;
+    text-align: justify;
+    margin-top: 15px;
+}
+
+hr.style3 {
+	border-top: 1px dashed #8c8b8b;
+}
+
+hr.style18 { 
+  height: 30px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 1px 0 0 0; 
+  border-radius: 20px; 
+  /*box-shadow: 0px 1px 1px  powderblue inset;*/
+} 
+hr.style18:before { 
+  display: block; 
+  content: ""; 
+  height: 30px; 
+  margin-top: -31px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 0 0 1px 0; 
+  border-radius: 20px; 
+  /*box-shadow: 1px 2px 3px  powderblue outset;*/
+}
+
+.bgColor{
+	background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: auto;    
+    position: relative;    
+    margin-bottom: -20px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.transition{
+    transition: height 1s;
+}
+
+.divider{
+    color:wheat;
+    width: 60%;
+    height: 2px;
+    /*text-align: center;*/
+}
+
+.modal-body p{
+    font-size: 1.2em;
+    text-align: justify;
+}

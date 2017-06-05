@@ -1,0 +1,106 @@
+@media only screen and (min-width: 768px) {
+
+        .left-panel{
+            padding-top: 4%;            
+        }
+}
+
+@media only screen and (max-width: 767px) {
+        .left-panel{
+            padding-bottom: 8%;            
+        }
+        body .contact-text{
+            font-size: 1em;
+            margin: 15px 0px;
+            text-align: left;
+        }
+        .contactInfo{
+            margin: auto 0px;
+            width: 100%;           
+        }
+        .main-text{
+            padding-bottom: 5%;
+        }
+}
+
+body{
+    background-repeat: repeat-y;
+    background-size: 100% 710px;
+    height: auto;
+}
+
+#mainCon{
+    background-color: rgba(0,0,0,0.3);
+    height: auto;
+    padding: 5% 20px;    
+}
+
+
+.right-panel{
+    background-color: rgba(0,0,0,.6);
+    border-radius: 15px;
+}
+
+#contact-form{
+    width:100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 20px;    
+}
+
+.contact-form input,.contact-form textarea{    
+    padding:8px 15px;
+    resize: none;
+    margin:5px 10px;
+    width:80%;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.contact-form input{
+    width:70%;
+    font-size: 1.1em;
+}
+
+.contactInfo tr{
+    border-bottom: 1px dotted appworkspace;    
+}
+.contactInfo tr:last-child,.contactInfo tr:nth-child(2){
+    border-bottom: 0px dotted appworkspace;    
+}
+.contact-form input:focus{
+    box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+    width: 80%;
+    transition:width 1s;
+}
+
+.contact-form input[type=submit]{                              
+        margin-bottom: 20px;
+}
+
+.contact-form textarea:focus{
+    box-shadow: 2px 3px 5px sandybrown,3px 2px 8px yellowgreen;
+}
+.contact-text{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    letter-spacing: 1px;
+    font-size: 1.2em;
+    color: bisque;
+    margin: 15px 30px;
+    text-align: justify;
+    margin-top: 15px;
+}
+
+.contact-title{
+    font-weight: bold;
+    color: aquamarine;   
+}
+
+.glyph{
+    color: darkkhaki;
+    width: 30px;
+}
+
+.info{
+    text-shadow: 2px 2px 7px black;
+    text-shadow: 1px 2px 6px grey;
+}

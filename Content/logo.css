@@ -1,0 +1,28 @@
+/*
+    This file contain some additional styling that was not applying n their respective files due to priority issue
+*/
+
+body .container-fluid .navbar-header .navbar-brand img#favicon {
+	height: 45px;
+	display: inline;
+	margin-top: -15px;
+	margin-right: 10px;
+	position: relative;
+}
+@media only screen and (max-width: 1050px) {
+	body .container-fluid .navbar-header .navbar-brand img#favicon {
+		width: 50px;
+		height: 35px;
+	}
+}
+@media only screen and (max-width: 500px) {
+	body .container-fluid .navbar-header .navbar-brand img#favicon {
+		display: none;
+	}
+}
+
+ul.dropdown-menu.menuCat li, ul#menuDrop li{
+    text-align: center;
+    border-bottom: 1px dashed #999;
+    padding: 5px;
+}

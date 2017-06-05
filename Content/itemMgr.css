@@ -1,0 +1,209 @@
+@media only screen and (max-width: 600px) {
+    body .simpleTable td:nth-child(1),body .simpleTable th:nth-child(1){
+        display:none
+    }
+    body .button-text{
+        display: none;
+    }
+    body .imgB{
+        width: 10%;
+        font-size: 1em;
+        padding: auto 5px;
+        margin: 0px;
+        content: "text("")";
+    }
+    body .simpleTable td:nth-child(2){
+        padding-left: 8px;
+    }
+    body .simpleTable td:nth-child(6){
+        width:40%;
+    }
+}
+
+@media only screen and (max-width:500px){
+    body .addB{
+        width:50%;
+        font-size: 1em;
+    }
+    body .simpleTable td:nth-child(1),body .simpleTable td:nth-child(6),
+    body .simpleTable th:nth-child(1),body .simpleTable th:nth-child(6){
+        display:none
+    }
+    body .button-text{
+        display: none;
+    }
+    body .simpleTable{
+        width: 97%;   
+    }
+    body .simpleTable th{
+        font-size: .9em;
+        padding: auto 5px;
+        margin: auto 0px;
+    }
+    body .simpleTable td{
+        font-size: .7em;
+        padding: auto 5px;
+        margin: auto 0px;
+    }
+    body .simpleTable td:nth-child(2){
+        padding-left: 8px;
+    }
+    body .simpleTable td:nth-child(2),body .simpleTable td:nth-child(7),body .simpleTable td:nth-child(8){
+        width: 11%;
+    }
+    body .simpleTable td:nth-child(4),body .simpleTable td:nth-child(5){
+        width: 15%;
+    }
+    body .simpleTable td:nth-child(3){
+        width: 50%;
+    }
+}
+
+.addB{
+    margin-bottom: -1.5%;
+    font-size: 1.8em;
+}
+
+.simpleTable{
+    width:100%;
+    border-collapse: collapse;
+    text-align: center;
+    vertical-align:  middle;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    border: 2px dotted cadetblue;
+    box-shadow: -1px 2px 15px 2px wheat; 
+    margin-bottom: 5%; 
+    margin-top: 0px;
+    opacity: .8;
+    margin: auto; 
+}
+
+.simpleTable tr{
+    margin:1px 0px;
+    border-bottom: 1px solid black;
+    background-color: beige;
+    border-radius: 5px;
+}
+
+.simpleTable tr:first-child{
+    border-bottom: 3px solid green;
+}
+
+.simpleTable td:nth-child(3),.simpleTable td:nth-child(5){
+    text-align: left;
+}
+
+.simpleTable td{
+    padding: 10px 5px;
+    font-size: 1em;
+}
+
+.simpleTable th{
+    font-size: 1.2em;
+	text-align: center;
+    font-weight: bold;
+    color: white;
+    padding: 10px 5px;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    background-color: black;
+}
+
+.simpleTable td img{
+    width: 30px;
+    height: 30px;
+}
+
+.simpleTable td button{
+    border:2px solid black;
+    border-radius: 5px;
+    vertical-align: center; 
+    text-align: left;
+    width: 95%;
+    height: 100%;
+    padding: 5px 5px;
+    /*padding-left: 30px;*/
+    margin: 2px;
+    font-weight: bold;
+}
+
+.simpleTable .imgB{
+    padding: 5px auto;
+    padding-left: 35px;
+    background-size: 25px 25px;
+    background-position: 8px;
+    background-repeat: no-repeat;
+    margin: 0px;
+    height: 40px;  
+    width:100%
+}
+
+.simpleTable td input ,.simpleTable td select{
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.simpleTable td button img{
+    margin: 0px;
+    padding: 0px;
+    width:30px;
+    height:30px;
+}
+
+.simpleTable td input:focus,#cart td button:focus{
+    border-color: green;
+}
+
+.simpleTable td button:hover{
+    background-color: white;
+    color: darkblue;
+    box-shadow: 1px 1px 2px 1px green;
+    cursor: pointer;
+}
+
+.simpleTable tr:hover{
+    background-color: azure;
+}
+
+
+#itemsTab tr:nth-child(even):hover{
+    background-color: azure;
+}
+
+#itemsTab tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+
+.simpleTable input[type=checkbox],.simpleTable input[type=radio]{
+    margin:5px 5px;
+    border-radius: 5px;
+    padding: 0px;
+    width:20px;
+    height:20px;
+}
+
+.item-img{
+    border-radius: 3px;
+    border: 1px dotted black;  
+    cursor: pointer;
+}
+
+.simpleTable td:nth-child(2){
+    padding-left: 13px;
+    text-align: center;
+}
+
+.display-none{
+    display: none;
+}
+
+span.qty{
+    text-align:center;
+    width:90%;
+    display:block;
+    font-style: italic; 
+    color: greenyellow;
+    text-shadow: 1px 1px 2px white;
+}

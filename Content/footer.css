@@ -1,0 +1,139 @@
+@media only screen and (max-width: 767px) {
+    #footerImg .sm-list, #adminFooterImg .sm-list{
+        position: relative;
+        width: 100%;
+        bottom: auto;
+        right: auto;
+    }
+
+    #footer .copyright, #adminFooter .copyright{
+        display: block;
+    }
+
+    body #footerImg, body #footer {
+        height: 140px;
+    }
+
+
+    body #adminFooterImg, body #adminFooter {
+        height: 155px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    body #footerImg, body #footer {
+        height: 185px;
+    }
+
+    #footer ul li, body #adminFooter ul li{
+        margin-left: 0px;
+        display: block;
+    }
+
+    body #adminFooterImg, body #adminFooter {
+        height: 205px;
+    }
+}
+
+#footer, #adminFooter{
+    color: black;
+    background-color: rgba(0,0,0,.8);
+    position: absolute;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    height: 105px;
+    font-size: .8em;
+    z-index: 1;
+    background-repeat: no-repeat;
+}
+
+#footerList{
+    display: block;
+    padding: 0px 5px;
+    padding-top: 5px;
+    width: 100%;
+    margin: 0px auto;
+    margin-bottom: 10px;
+    color: black;
+    text-decoration: none;
+    list-style: none;
+}
+
+#footerList li:first-child{
+    margin-left: 0px;
+}
+
+#footerList li{
+    display: inline;
+    margin-left: 20px;
+    color: white; 
+}
+
+#footerList li a{
+    color: white; 
+}
+
+#footer p, #adminFooter p{
+    font-size: 1.5em;
+    color: cadetblue;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+.copyright{
+    display: block;
+    color: bisque;
+    font-size: .7em;    
+    font-weight: 100;
+    margin-top:5px;
+    letter-spacing: 2px;
+    padding-bottom: 5px;
+}
+
+#rights{
+    text-decoration: underline;
+}
+
+#footerImg, #adminFooterImg {
+    position: absolute;
+    background-image: url("../../../images/carousel/1.jpg");
+    background-repeat: no-repeat;
+    height: 105px;
+    width: 100%;
+}
+
+.sm-list{
+        position: absolute;
+        bottom: 25px;
+        right: 25px;  
+        width: 250px;
+}
+
+.sm-icons{
+    height: 30px;
+    width: 30px;
+}
+
+.sm-links{
+    text-decoration: none;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    padding: 5px;
+    display: inline-block;
+}
+
+.sm-links:hover{
+    -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0%);
+}
+
+p#name a{
+    text-shadow: 1px 1px 1px black , 1px -1px 0px green;
+    letter-spacing: 3px;
+    font-size: .9em;
+    text-decoration: none;
+    cursor: none;
+    font-style: italic;
+}

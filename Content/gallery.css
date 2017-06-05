@@ -1,0 +1,87 @@
+@media only screen and (max-width: 500px) {
+    body .gal-img-div{
+            min-height: 100px;
+        }
+}
+
+.navbar .navbar-default{
+    width: 100%;
+}
+
+.mainCon{
+    background-color: rgba(0,0,0,0.3);
+    height: auto;
+    padding-top: 5%;
+}
+
+body{
+    background-repeat: repeat-y;
+    background-size: 100% 710px;
+    height: auto;
+}
+
+.gal-img-div{
+    padding-left: 0px;
+    margin-left: 0px;
+    min-height: 250px;   
+    vertical-align: middle;     
+    text-align: center;
+    margin-bottom: 20px;
+    display: inline-block ;
+}
+
+.gallery{
+    width: 100%;
+    box-sizing: border-box;
+    margin: auto;  
+    padding-bottom: 60px;      
+}
+
+.gallery row{
+    text-align: center;
+    vertical-align: middle;
+    padding: 0px;
+}
+.gallery row .first{
+    padding-left: 0px;
+    text-align: center;
+    margin-left: 0px;
+}
+.gallImg{
+    width: 100%;
+    display: block;
+    height: 290px;
+    margin: 0px 10px;
+    cursor:pointer;
+    transition: 0.5s;
+}
+
+.gallImg:hover {opacity: 0.8;}
+
+.page-no {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    color: black;
+    margin: -35px 5px;
+    margin-bottom: 10px;
+}
+
+.page {
+    display: inline-block;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+    margin: auto 2px;
+    width: 30px;
+    text-align: center;
+    border-radius: 5px;
+    color: black
+}
+
+.page-active{
+    color: white;
+    background: #255625;
+    box-shadow: 1px 2px 3px yellow , 2px 1px 2px blue;
+}

@@ -1,0 +1,40 @@
+﻿@section css{
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background-image: url("../../../images/carousel/1.jpg");
+        }
+    </style>
+}
+@section script{
+    <script>
+            $(document).ready(function () {
+                $('#navDrop').hover(function () {
+                    $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+                }, function () {
+                    $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+                });
+                $('#menuDrop').mouseover(function () {
+                    $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+                });
+                $('#menuDrop').mouseleave(function () {
+                    $(this).parent().css("background-color", "");
+                });
+            });
+    </script>
+}
+
+<div class="bgColor">
+    <div id="mainCon" class="container  text-center">
+        <div class="jumbotron" style="background:rgba(0,0,0,0);height:inherit;">
+            <h1 id="aboutH" class="text-center">@ViewBag.ErrorTitle</h1>
+            <hr class="style18" />
+            <br />
+            <p class="main-text" style="text-align:center">@ViewBag.ErrorText</p>
+            <br />
+            <center>
+                <a href="/Home/Index" class="btn-lg btn-danger no-login">Home</a>
+            </center>
+        </div>
+    </div>
+</div>
