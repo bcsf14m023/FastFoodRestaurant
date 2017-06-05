@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FastFoodRestaurantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="CAT_ID" />
+          </Key>
+          <Property Name="CAT_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PICTURE" Type="varchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GALLERY">
+          <Key>
+            <PropertyRef Name="GAL_ID" />
+          </Key>
+          <Property Name="GAL_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PICTURE" Type="varchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ITEMS">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="ITEM_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CAT_ID" Type="int" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="500" />
+          <Property Name="PRICE" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="PICTURE" Type="varchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="USERS_ID" />
+          </Key>
+          <Property Name="USERS_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USERNAME" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PASS_WORD" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'FastFoodRestaurant.dbo.ITEM_VIEW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ITEM_VIEW">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="Img" />
+            <PropertyRef Name="cName" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cid" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="Img" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="cName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Desc" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="ITEMS_FK">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="0..1" />
+          <End Role="ITEMS" Type="Self.ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="CAT_ID" />
+            </Principal>
+            <Dependent Role="ITEMS">
+              <PropertyRef Name="CAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FastFoodRestaurantModelStoreContainer">
+          <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GALLERY" EntityType="Self.GALLERY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ITEMS" EntityType="Self.ITEMS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ITEM_VIEW" EntityType="Self.ITEM_VIEW" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ITEM_VIEW].[id] AS [id], 
+    [ITEM_VIEW].[Name] AS [Name], 
+    [ITEM_VIEW].[Cid] AS [Cid], 
+    [ITEM_VIEW].[Price] AS [Price], 
+    [ITEM_VIEW].[Img] AS [Img], 
+    [ITEM_VIEW].[cName] AS [cName], 
+    [ITEM_VIEW].[Desc] AS [Desc]
+    FROM [dbo].[ITEM_VIEW] AS [ITEM_VIEW]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="ITEMS_FK" Association="Self.ITEMS_FK">
+            <End Role="CATEGORY" EntitySet="CATEGORY" />
+            <End Role="ITEMS" EntitySet="ITEMS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FastFoodRestaurantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="CAT_ID" />
+          </Key>
+          <Property Name="CAT_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PICTURE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ITEMS" Relationship="Self.ITEMS_FK" FromRole="CATEGORY" ToRole="ITEMS" />
+        </EntityType>
+        <EntityType Name="GALLERY">
+          <Key>
+            <PropertyRef Name="GAL_ID" />
+          </Key>
+          <Property Name="GAL_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PICTURE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ITEM">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="ITEM_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CAT_ID" Type="Int32" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PRICE" Type="Decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="PICTURE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CATEGORY" Relationship="Self.ITEMS_FK" FromRole="ITEMS" ToRole="CATEGORY" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="USERS_ID" />
+          </Key>
+          <Property Name="USERS_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PASS_WORD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ITEM_VIEW">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="Img" />
+            <PropertyRef Name="cName" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cid" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="Img" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="ITEMS_FK">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="0..1" />
+          <End Role="ITEMS" Type="Self.ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="CAT_ID" />
+            </Principal>
+            <Dependent Role="ITEMS">
+              <PropertyRef Name="CAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FastFoodRestaurantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
+          <EntitySet Name="GALLERies" EntityType="Self.GALLERY" />
+          <EntitySet Name="ITEMS" EntityType="Self.ITEM" />
+          <EntitySet Name="USERS" EntityType="Self.USER" />
+          <EntitySet Name="ITEM_VIEW" EntityType="Self.ITEM_VIEW" />
+          <AssociationSet Name="ITEMS_FK" Association="Self.ITEMS_FK">
+            <End Role="CATEGORY" EntitySet="CATEGORies" />
+            <End Role="ITEMS" EntitySet="ITEMS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FastFoodRestaurantModelStoreContainer" CdmEntityContainer="FastFoodRestaurantEntities">
+          <EntitySetMapping Name="CATEGORies">
+            <EntityTypeMapping TypeName="FastFoodRestaurantModel.CATEGORY">
+              <MappingFragment StoreEntitySet="CATEGORY">
+                <ScalarProperty Name="CAT_ID" ColumnName="CAT_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GALLERies">
+            <EntityTypeMapping TypeName="FastFoodRestaurantModel.GALLERY">
+              <MappingFragment StoreEntitySet="GALLERY">
+                <ScalarProperty Name="GAL_ID" ColumnName="GAL_ID" />
+                <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ITEMS">
+            <EntityTypeMapping TypeName="FastFoodRestaurantModel.ITEM">
+              <MappingFragment StoreEntitySet="ITEMS">
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="CAT_ID" ColumnName="CAT_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="FastFoodRestaurantModel.USER">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="USERS_ID" ColumnName="USERS_ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="PASS_WORD" ColumnName="PASS_WORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ITEM_VIEW">
+            <EntityTypeMapping TypeName="FastFoodRestaurantModel.ITEM_VIEW">
+              <MappingFragment StoreEntitySet="ITEM_VIEW">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cid" ColumnName="Cid" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="cName" ColumnName="cName" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
