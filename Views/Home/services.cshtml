@@ -1,0 +1,95 @@
+
+@section css{
+    <link href="~/Content/services.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+    body {
+        background-image: url("../../../images/carousel/5.jpg");
+    }
+</style>    
+}
+@section script{
+	<script>
+		$(document).ready(function(){
+			$(".service-item").mouseover(function(){
+				$(this).find('.service-img').removeClass('greyScale');
+				$(this).find('.service-img').addClass('addColor');
+				$(this).find('.caption').slideDown(500);				
+			});
+			$(".service-item").mouseleave(function(){
+				$(this).find('.service-img').removeClass('addColor');
+				$(this).find('.service-img').addClass('greyScale');
+				$(this).find('.caption').slideUp(100);				
+            });
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+		});
+	</script>
+}
+    <div class="bgColor">
+        <div id="mainCon" class="container">
+            <h2 id ="aboutH" class="text-center heading">Our Special Services</h2>
+            <hr class="style18"/>
+            
+            <div class="container">
+				<div class="row">
+                    <div class="col-md-12 col-xs-12 col-sm-12" style="margin-left: -5%;">
+                        <p class="main-text">We also provide many special services for easeness of our beloved customers. We provide many services some of them are listed here.</p>						
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item">
+                        <h2 class="service">Special Bookings</h2>
+						<img class="img-responsive img-circle service-img greyScale" src="~/images/services/special.jpg"/>
+						<div class="caption">
+							<p>We also provide facilty for special bookings. You can book us for giving special party to you family and friends and have good time.</p>
+						</div>
+                    </div>    
+					<div class="col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item">
+                        <h2 class="service">Birthday Parties</h2>
+						<img class="img-responsive img-circle service-img greyScale" src="~/images/services/birthday.jpg"/>
+						<div class="caption">
+							<p>We also provide facilty planning special <strong><em>"BIRTHDAY PARTIES"</em></strong> for your family and friends so that you can have a good time without worrying about planning and organizing event.</p>
+						</div>
+                    </div>     
+					                   
+                </div>      
+				<div class="row">
+					<div class="col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item">
+                        <h2 class="service">Pre-Booking</h2>
+						<img class="img-responsive img-circle service-img greyScale" src="~/images/services/preBook.png"/>
+						<div class="caption">
+							<p>We also provide facilty of pre-booking so that you can book in advance on busy days to avoid any issues.</p>
+						</div>
+                    </div> 
+					<div class="col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item">
+                        <h2 class="service">Big Orders</h2>
+						<img class="img-responsive img-circle service-img greyScale" src="~/images/services/large.jpg"/>
+						<div class="caption">
+							<p>We also provide facilty of booking bulk orders for your parties, meeting or any other events. And you can book us in advance for such events so that we can deliver on time.</p>
+						</div>
+                    </div> 
+				</div>                  
+				<div class="row">
+					<div class="col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item last-item">
+                        <h2 class="service">Home Delivery</h2>
+						<img class="img-responsive img-circle service-img greyScale" src="~/images/services/delivery.jpg"/>
+						<div class="caption">
+							<p>We also provide facilty of <strong><em>"HOME DELIVERY"</em></strong> in Lahore. You can place your order through call and we will try to deliver your order as fast as possible. <em>(Home Delivery is free for upto 3KM radius.)</em></p>
+						</div>
+                    </div> 					
+				</div>                  
+		    </div>
+		    
+			</div>			
+        </div>
+    </div>

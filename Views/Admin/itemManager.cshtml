@@ -1,0 +1,561 @@
+@using FastFoodRestaurant.Models;
+@model ITEM
+
+@{
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section css{
+	<link href="~/Content/gallery.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/modalForm.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/itemForm.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/itemMgr.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/modalImgAdmin.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+	<style>
+		.mainCon {
+			min-height: 598px;
+		}
+
+		span.qty {
+			color: maroon;
+			text-shadow: 1px black;
+		}
+
+		.disable {
+			cursor: not-allowed;
+		}
+		body {
+			background-image: url("../../../images/carousel/3.jpg");
+		}
+	</style>
+}
+@section script{
+	<script>
+		var delItem;
+		var reload=0;
+		var page=1;
+		//to remove page numbers on refresh as 1st page is loaded by default
+		var sPageURL = decodeURIComponent(window.location);
+		var newUrl=sPageURL.split('#')[0];
+		if(sPageURL !== newUrl)
+			window.location=newUrl;  
+		
+		$(document).ready(function(){	
+			//Backdrop z-index fix
+			$(document).on('show.bs.modal', '.modal', function () {
+				var zIndex = 1040 + (10 * $('.modal:visible').length);
+				$(this).css('z-index', zIndex);
+				setTimeout(function() {
+					$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+				}, 0);
+			}); 
+
+			//Scrollbar fix
+			$(document).on('hidden.bs.modal', '.modal', function () {
+				$('.modal:visible').length && $(document.body).addClass('modal-open');
+			});
+			$(document).on('click','.editItemB',function(){
+				var id=$(this).parent().parent().find('td:first-child').text();
+				$('#itemID').val(id);
+				var name=$(this).parent().parent().find('td:first-child').next().next().text();
+				var catID=$(this).parent().parent().find('td:first-child').next().next().next().find('span').text();
+				var price=$(this).parent().parent().find('td:last-child').prev().prev().prev().text();
+				var desc=$(this).parent().parent().find('td:last-child').prev().prev().text();
+
+				//Now show Modal
+				$('#editItemForm').find('input[name="NAME"]').val(name);
+				//$("#editItemForm #catL option[value='"+catID+"'").attr('selected', true);
+				$("#editItemForm #catL").readOnly = true;
+				$("#catLH").val(catID);
+				$('#editItemForm').find('input[name="PRICE"]').val(price);
+				$('#descE').val(desc);
+				$("#noImg").prop("checked", true);
+				$('#newImg').css('display','none');
+				//backdrop static is to avoid closing modal on clicking outside
+				$('#editItem').modal({keyboard: false, show:true, backdrop:"static"});
+				$([document, window]).unbind('.dialog-overlay');
+				document.activeElement.blur();
+				$('#editItem').focus();
+			});
+			
+			//For page number
+			$(document).on('click',".page",function(){
+				var pageNo=$(this).text();          
+				if (pageNo !== page || reload === 1)
+				{   //if clicked page is other then current page
+					reload=0;
+					$('.page').removeClass("page-active");
+					$(this).addClass("page-active");
+					page=$('.page-active').text();      //To save active page-number
+					$.get("/Admin/RefreshItemsTable?page="+pageNo, function(response) { 
+						$('#itemsTab').html("");
+						$('#itemsTab').append(response);
+					});
+				}
+			});
+			
+			function refreshPageCountLinks(){
+				$.get("/Adimn/RefreshItemsPageCount?page="+page,function(response){
+					$('.page-no').html("");
+					$('.page-no').html(response);
+				});
+			}
+			
+			var itemID;
+			$(document).on('click',".delItemB",function(){
+				confirmModal("Delete Confirmation","Are you sure you want to delete this image?");
+				delItem=$(this).parent().parent();
+				itemID=$(this).parent().parent().find('td:first-child').text();
+			});
+
+			$('#logout').click(function(){
+				confirmModal("Logout Confirmation","Are you sure you want to LOGOUT?");
+			});
+
+			$('#no').click(function(){
+				$('#confirmDialog').modal('hide');
+			});
+
+			$('#yes').click(function(){
+				$('#confirmDialog').modal('hide');
+				
+				//Without timeout new model is opened before confirmDialog
+				// is closed due to which everytime 17px right-padding is added in body
+				//to solve this timeout is used here
+				
+				setTimeout(function (){
+					var delItemT='Delete Confirmation';
+					var chPT='Update Password Confirmation';
+					var logout='Logout Confirmation';
+					// alert($('#confirmTitle').text());
+
+					if($('#confirmTitle').text() === delItemT){
+						//To delete record from DB
+						$.get("/Admin/DelItem?id="+itemID, function(response){
+							if (response.rv == 1)
+							{
+								successModal("Task successful","Item deleted from database successfully.");
+								//To delete record
+								delItem.css("display","none");
+								delItem=null;
+
+								//To refresh pageNumbers
+								refreshPageCountLinks();
+
+								//To reload previous page if no more items are left on last page and it is removed from list
+								reload=1;       //to load 20 items again as after deletion there will be 19 items
+								setTimeout(function (){
+									$('.page-active').trigger('click');
+								},500);
+								//without this timeout if last page is deleted then it will not refresh 
+								//because refreshing pages using ajax takes some time and it will execute before refreshing
+							}
+							else if (response.rv == 0) {   // Session Expired
+								failureModal('Error', response.text);
+								setTimeout(function () {
+									window.location.href = '/Home/NoLogin';
+								}, 1000);
+							}
+							else
+								failureModal("Error",response.text +"<br/><br/>"+response.excp);
+						});
+
+					}
+					else if($('#confirmTitle').text() === chPT){
+						var old=$('#oldPassword').val();
+						var newP=$('#newPassword').val();
+						var confirm=    $('#confirmPassword').val();
+						changePassword(old,newP,confirm);
+					}
+					else if($('#confirmTitle').text() === logout){
+						
+						$.get("Logout", function (response) {
+							if (response.rv == 1) {
+								successModal("Task successful", "Now you are logged out.<br/>Redirecting....");
+								window.location.href = '/Home/Index';
+							}
+							else if (response.rv == 0) {   // Session Expired
+								failureModal('Error', response.text);
+								setTimeout(function () {
+									window.location.href = '/Home/NoLogin';
+								}, 1000);
+							}
+						});
+					}
+				},450);
+			});
+
+			$('#yesImg').click(function(){
+				$('#newImg').slideDown(1000);
+				$('newImg').addClass('showNewImg');
+			});
+
+			$('#noImg').click(function(){
+				$('#newImg').slideUp(1000);
+			});
+
+			$(document).on('click','.item-img',f1);
+			
+			$(document).keydown(function(event){			//To close modal on ESC
+				if(event.keyCode==27){
+					$('#myModal').css('display','none');
+			   }
+			});
+			
+			$(document).on('click','#addItemButton',function(e){
+				//To reload previous data if user closed tab withour clicking add button
+				if (sessionStorage.getItem('set') == 1)
+				{
+					$('#addItemForm').find('input[name="NAME"]').val(sessionStorage.getItem('NAME'));
+					$('#addItemForm').find('input[name="PRICE"]').val(sessionStorage.getItem('PRICE'));
+					$('#desc').val(sessionStorage.getItem('desc'));
+					if(sessionStorage.getItem('setCat')==1)
+						$('#catL').val(sessionStorage.getItem('catList'));
+				}
+				//to Show Modal
+				$('#addItem').modal({keyboard: false, show:true, backdrop:"static"});
+				$([document, window]).unbind('.dialog-overlay');
+				document.activeElement.blur();
+				$('#addItem').focus();
+			});
+			
+			//To save addItemForm values in sessionStorage so that user don;t have tot ype again next time before submit
+			$(document).on('blur','#addItemForm input',function(e){
+				if(this.type != 'file'){
+					sessionStorage.setItem(this.name,$(this).val()); 
+					sessionStorage.setItem('set',1);
+				}
+			});
+			$(document).on('blur','#addItemForm textarea',function(e){
+				sessionStorage.setItem('desc',$(this).val()); 
+				sessionStorage.setItem('set',1);
+			});
+			$(document).on('blur','#addItemForm select',function(e){
+				sessionStorage.setItem('catList',$(this).val()); 
+				sessionStorage.setItem('setCat',1);
+			});
+			
+			$(document).on('submit','#addItemForm',function(e){
+				e.preventDefault();
+				
+				if($('#image').val().length == 0) {
+					failureModal('No Image Selected', 'Please select an image for this item.');
+					return;
+				}
+				else if ($('#addItemForm select').val() == 0) {
+					failureModal('Invalid Category','Please select a category for this menu item.');
+					('#addItemForm select').focus();
+					return;
+				}
+				var $form = $(this);                                
+				  
+				//$('#descH').val($('#desc').val());
+				$.ajax({
+					type: "POST",
+					url: "/Admin/AddItem",
+					contentType: false,
+					processData: false,
+					data: new FormData(this),
+					success: function (response) {
+						console.log(response);
+						if(response.rv == 1){
+							$('#addItem').modal('hide');
+							setTimeout(function () {
+								successModal('Task successful', response.text);
+							}, 500);
+							
+							document.getElementById("addItemForm").reset();
+							//To display newly uploaded item
+							refreshPageCountLinks();
+							reload=1;
+							//here timeout is not needed because we want to refresh current page
+							//even if new page is added we don;t want to open it
+							$('.page-active').trigger('click');     
+
+							//To remove variables from sessionStorage
+							sessionStorage.removeItem('catList');
+							sessionStorage.removeItem('desc');
+							sessionStorage.removeItem('itemName');
+							sessionStorage.removeItem('price');
+							sessionStorage.removeItem('setCat');
+							sessionStorage.setItem('set',0);
+						}
+						else if (response.rv == -1) {   //Validation Errors
+							var errors = "<br/><br/>Following validations have failed:<br/><ul>";
+							var str;
+							var array = response.errors;
+							response.errors.map(function (str) {        //map executes this function for every element in array (except null)
+								errors += "<li>" + str.ErrorMessage + "</li>";
+							});
+							errors += "</ul>";
+							failureModal('Error', response.text + errors);
+						}
+						else if(response.rv == 0) {   // Session Expired
+							failureModal('Error', response.text); 
+							setTimeout(function () {
+								window.location.href = '/Home/NoLogin';
+							}, 1000);
+						}
+						else {   // Exception
+							failureModal('Error', response.text);
+						}
+					}
+				});
+			});
+			
+			//CORRECT THIS-==========================================================================
+			$(document).on('submit','#editItemForm',function(e){
+				e.preventDefault();
+				var newImg = $('#editItemForm input[name=changeImg]:checked').val();
+				$('#imageVal').val(newImg);
+
+				if ($('#editItemForm select').val() == 0) {
+					failureModal('Invalid Category', 'Please select a category for this menu item.');
+					return;
+				}
+				else if (newImg == 1 && $('#imageE').val().length == 0) {
+					failureModal('No Image Selected', 'Please select an image to replace the old item image.');
+					return;
+				}
+
+				var $form = $(this);
+
+				$.ajax({
+					type: "POST",
+					url: "/Admin/EditItem",
+					contentType: false,
+					processData: false,
+					data: new FormData(this),
+					success: function (response) {
+						console.log(response);
+						if (response.rv == 1) {
+							$('#editItem').modal('hide');
+							setTimeout(function () {
+								successModal('Operation successful', "Item is updated successfully.");
+							}, 500);
+							document.getElementById("editItemForm").reset();
+							//To display newly uploaded item
+							reload = 1;
+							$('.page-active').trigger('click');
+						}
+						else if (response.rv == -1) {   //Validation Errors
+							var errors = "<br/><br/>Following validations have failed:<br/><ul>";
+							var str;
+							var array = response.errors;
+							response.errors.map(function (str) {        //map executes this function for every element in array (except null)
+								errors += "<li>" + str.ErrorMessage + "</li>";
+							});
+							errors += "</ul>";
+							failureModal('Error', response.text + errors);
+						}
+						else if (response.rv == 0) {   // Session Expired
+							failureModal('Error', response.text);
+							setTimeout(function () {
+								window.location.href = '/Home/NoLogin';
+							}, 1000);
+						}
+						else{   // Exception
+							failureModal('Error', response.text);
+						}
+					}
+				});
+			});
+		});
+		function f1(){
+			var modal = document.getElementById('myModal');
+			var lnk = $(this).attr('src');
+			modal.style.display = "block";
+			$("#imgModal").attr('src',lnk);
+		}
+	</script>
+}
+	<div class="bgColor">
+		<div class="container mainCon">
+						
+				<h2 id ="aboutH" class="text-center heading">Item Manager</h2>
+				<hr class="style18"/>
+				<div class="row">
+				<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center add-b-row">
+					<button class="btn-success addB" id="addItemButton" type="button" >
+							<span class="glyphicon glyphicon-plus-sign"></span>
+							 Add New Item
+					</button>
+				</div>
+			</div>
+
+			<table id="itemsTab" class="simpleTable table-responsive">
+				<col width="4%">
+				<col width="5%">
+				<col width="21%">
+				<col width="10%">
+				<col width="10%">
+				<col width="30%">
+				<col width="10%">
+				<col width="10%">
+				<tr>
+					<th>ID</th>
+					<th>Image</th>
+					<th>Item Name</th>
+					<th>Category</th>
+					<th>Price</th>
+					<th>Description</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+				@{
+					foreach (ITEM item in ViewBag.Items)
+					{
+						<tr>
+							<td>@item.ITEM_ID</td>
+							<td><img class='item-img img-responsive' src='@item.PICTURE' /></td>
+							<td>@item.NAME</td>
+							<td>@item.CATEGORY.NAME<span class='display-none'>@item.CAT_ID</span></td>
+							<td>@item.PRICE</td>
+							<td style='text-align:left'>@Html.Raw(@item.DESCRIPTION)</td>
+							<td>
+								<button class='imgB editItemB' style="background-image: url('../../../images/edit.png');"><span class='button-text'>Edit</span></button>
+							</td>
+							<td>
+								<button class='imgB delItemB' style="background-image: url('../../../images/delete.png');"><span class='button-text'>Remove</span></button>
+							</td>
+						</tr>
+					}
+				}
+			</table>
+			<br/><br/>
+			<br hieght="40px"/>
+			<div class="page-no">
+				@{
+					int i = 1;
+					int n = (int)ViewBag.PageCount, active = (int)ViewBag.Page;
+					bool lastPage = false;     //make activePage active again if it is still present
+					if (n < active)
+					{
+						lastPage = true;      //make lastPage active if pages are now decreased and last page was active before
+					}
+
+					string pageActive = "";
+					if (n != 0)
+					{
+						while (i <= n)
+						{
+							@*To make one page active*@
+							if (i == active && !lastPage)      //make active page active again
+							{
+								pageActive = "page-active";
+							}
+							else if (i == n && lastPage)      //make last page active as previous active page is no-more present
+							{
+								pageActive = "page-active";
+							}
+
+							<a href='#?page=@i'><span class='page @pageActive'> @i</span></a>
+							pageActive = "";
+							i++;
+						}
+					}
+				}
+			</div>
+		</div>						
+	</div>
+	<div id="addItem" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header"  style="background-color:cadetblue;color: black;text-align: center; font-size: 2em;font-weight: 700">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add Item</h4>
+				</div>
+				<div class="modal-body">
+					@using (Html.BeginForm("AddItem", "Admin", FormMethod.Post,
+						new { enctype = "multipart/form-data", id = "addItemForm", name = "addItemForm", autocomplete="on",
+						@class = "modalForm text-center", style="width:100%; margin:5px 10px;text-align: center;" }))
+					{
+						<center>
+							@Html.LabelFor(model => Model.NAME, new { @class = "col-sm-12 col-xs-12 formLabel" })
+							@Html.TextBoxFor(model=>Model.NAME,new { placeholder= "Item Name", required=true })
+							@Html.ValidationMessageFor(model => Model.NAME)
+
+							@Html.LabelFor(model => Model.CAT_ID, new { @class = "col-sm-12 col-xs-12 formLabel" })
+							@Html.DropDownListFor(model => Model.CAT_ID, (IEnumerable < SelectListItem >) (ViewBag.Cat), new { name="catList",id="catL"})
+							@Html.ValidationMessageFor(model => Model.CAT_ID)
+
+							@Html.LabelFor(model => Model.DESCRIPTION, new { @class = "col-sm-12 col-xs-12 formLabel" ,Text="Item Description"})
+							@Html.TextAreaFor(model => Model.DESCRIPTION, new { @class="textForm",  id="desc", form="addItemForm", rows="5",cols="40" })
+							@Html.ValidationMessageFor(model => Model.DESCRIPTION)
+
+							@Html.LabelFor(model => Model.PICTURE, new { @class = "col-sm-12 col-xs-12 formLabel", Text = "*Item Image" })
+							@Html.TextBoxFor(model => Model.PICTURE, new { type="file", id = "image", name = "image"})
+							@Html.ValidationMessageFor(model => Model.PICTURE)
+
+							@Html.LabelFor(model => Model.PRICE, new { @class = "col-sm-12 col-xs-12 formLabel", Text="*Price" })
+							@Html.TextBoxFor(model => Model.PRICE, new { type = "number", name = "price", placeholder = "Price", min = "0", required = true })
+							@Html.ValidationMessageFor(model => Model.PRICE)
+
+							<span class="mandSpan"><b>Note: </b>Fields with * are mandatory</span><br />
+							<button type="submit" class="btn-primary" form="addItemForm" name="addItemB" id="addItemB">Add Item</button>
+						</center>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="editItem" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header"  style="background-color:cadetblue;color: black;text-align: center; font-size: 2em;font-weight: 700">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Edit Item</h4>
+				</div>
+				<div class="modal-body">
+					@using (Html.BeginForm("EditItem", "Admin", FormMethod.Post,
+							new { enctype = "multipart/form-data", id = "editItemForm", name = "editItemForm", autocomplete="on",
+							@class = "modalForm text-center .form-horizontal", style="width:100%; margin:5px 10px;text-align: center;" }))
+					{
+						<input type="hidden" name="imageVal" id="imageVal">     //1 if image is updated
+						@Html.HiddenFor(model => Model.ITEM_ID, new { id = "itemID" });
+						<center>
+							@Html.LabelFor(model => Model.NAME, new { @class = "col-sm-12 col-xs-12 formLabel" })
+							@Html.TextBoxFor(model=>Model.NAME,new { placeholder= "Item Name" , @readonly=true, style= "background-color: aliceblue" })
+
+							@Html.LabelFor(model => Model.CAT_ID, new { @class = "col-sm-12 col-xs-12 formLabel" })
+							@Html.DropDownListFor(model => Model.CAT_ID, (IEnumerable < SelectListItem >) (ViewBag.Cat), new { name="catList",id="catL", disabled = "true", style = "background-color: aliceblue" })
+							@Html.HiddenFor(model => Model.CAT_ID, new { id = "catLH"}) @*Because disabled select field is not sent to server in Request*@  
+
+							@Html.LabelFor(model => Model.DESCRIPTION, new { @class = "col-sm-12 col-xs-12 formLabel" ,Text="Item Description"})
+							@Html.TextAreaFor(model => Model.DESCRIPTION, new { @class="textForm",  id="descE", form="editItemForm", rows="5",cols="40" })
+							@Html.ValidationMessageFor(model => Model.DESCRIPTION)
+
+							<label class="col-sm-12 col-xs-12 formLabel" for="changeImg">Do you want to change image?</label>
+							<br /><br /><input type="radio" name="changeImg" id='yesImg' value="1"><span style="font-size:1.1em;" class="radVal">Yes</span>
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<input type="radio" name="changeImg" id='noImg' value="0" checked="checked"><span style="font-size:1.1em;" class="radVal">No</span><br />
+							<div id="newImg" style="display:none;width:100%;">
+								@Html.LabelFor(model => Model.PICTURE, new { @class = "col-sm-12 col-xs-12 formLabel", Text = "*New Image" })
+								@Html.TextBoxFor(model => Model.PICTURE, new { type = "file", id = "imageE", name = "image" })
+							</div>
+							
+							@Html.LabelFor(model => Model.PRICE, new { @class = "col-sm-12 col-xs-12 formLabel", Text="*Price" })
+							@Html.TextBoxFor(model => Model.PRICE, new { type = "number", name = "price", placeholder = "Price", min = "0", required = true })
+							@Html.ValidationMessageFor(model => Model.PRICE)
+							
+							<span class="mandSpan"><b>Note: </b>Fields with * are mandatory</span><br />
+							<button type="submit" class="btn-primary" form="editItemForm" name="editItemB" id="editItemB">Update Item</button>
+						</center>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--For displaying images in pop-up on Click-->
+	<div id="myModal" class="modal">
+
+		<!-- The Close Button -->
+		<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+		<!-- Modal Content (The Image) -->
+		<img class="modal-content text-center" id="imgModal" src="#">
+	</div>

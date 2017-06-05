@@ -1,0 +1,131 @@
+@using FastFoodRestaurant.Models;
+@model List<GALLERY>
+
+@section css{
+    <link href="~/Content/gallery.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/modalImg.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        .navbar .navbar-default {
+            width: 100%;
+        }
+
+        body {
+            background-image: url("../../../images/carousel/2.jpg");
+        }
+    </style>
+}
+
+@section script{
+    <script>
+        //to remove page numbers on refresh as 1st page is loaded by default
+        var sPageURL = decodeURIComponent(window.location);
+        var newUrl = sPageURL.split('#')[0];
+        if (sPageURL !== newUrl)
+            window.location = newUrl;
+
+        $(document).ready(function () {
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+            $(document).on('click', ".page", function () {
+                var pageNo = $(this).text();
+                if (pageNo !== $('.page-active').text()) {   //if clicked page is other then current page
+                    $('.page').removeClass("page-active");
+                    $(this).addClass("page-active");
+
+                    $.get("/Home/LoadGal?page=" + pageNo, function (response) {
+                        $('.gallery .row').html("");
+                        $('.gallery .row').append(response);
+                    });
+                }
+            });
+
+
+        });
+        function f1() {
+            var modal = document.getElementById('myModal');
+            var lnk = $(this).attr('src');
+            modal.style.display = "block";
+            $("#imgModal").attr('src', lnk);
+        }
+
+        $(document).on('click', '.gallImg', f1);
+
+        $(document).keydown(function (event) {			//To close modal on ESC
+            if (event.keyCode == 27) {
+                $('#myModal').css('display', 'none');
+            }
+        });
+    </script>
+}  
+    <div class="bgColor">
+        <div class="container mainCon">
+						
+        <h2 id ="aboutH" class="text-center heading">Picture Gallery</h2>
+        <hr class="style18"/>
+			
+        <div class="container gallery">
+            <div class="row">
+                @{
+                    foreach (GALLERY g in Model)
+                    {
+                        <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4 gal-img-div text-center">
+                            <img class='gallImg img-thumbnail img-responsive' src='@g.PICTURE'/>
+                        </div>
+                    }
+                }
+            </div>
+        </div>		
+            <div class="page-no">
+                @{
+                    int i = 1;
+                    int n = (int)ViewBag.PageCount, active = (int)ViewBag.Page;
+                    bool lastPage = false;     //make activePage active again if it is still present
+                    if (n < active)
+                    {
+                        lastPage = true;      //make lastPage active if pages are now decreased and last page was active before
+                    }
+
+                    string pageActive = "";
+                    if (n != 0)
+                    {
+                        while (i <= n)
+                        {
+                            @*To make one page active*@
+                            if (i == active && !lastPage)      //make active page active again
+                            {
+                                pageActive = "page-active";
+                            }
+                            else if (i == n && lastPage)      //make last page active as previous active page is no-more present
+                            {
+                                pageActive = "page-active";
+                            }
+
+                            <a href='#?page=@i'><span class='page @pageActive'> @i</span></a>
+                            pageActive = "";
+                            i++;
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+	<!--For displaying images in pop-up on Click-->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content text-center" id="imgModal" src="#">
+    </div>

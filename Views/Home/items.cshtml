@@ -1,0 +1,93 @@
+@using FastFoodRestaurant.Models;
+
+@section css{
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/itemMgr.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/items.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background-image: url("../../../images/carousel/1.jpg");
+        }
+    </style>    
+}
+@section script{
+    <script>
+        $(document).ready(function () {
+            $(".service-item").mouseover(function () {
+                $(this).find('.service-img').removeClass('greyScale');
+                $(this).find('.service-img').addClass('addColor');
+                $(this).find('.caption').slideDown(500);
+            });
+            $(".service-item").mouseleave(function () {
+                $(this).find('.service-img').removeClass('addColor');
+                $(this).find('.service-img').addClass('greyScale');
+                $(this).find('.caption').slideUp(100);
+            });
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+        });
+    </script>
+
+}    
+    
+    <div class="bgColor">
+        <div id="mainCon" class="container">
+            <h2 id ="aboutH" class="text-center heading">Menu Items</h2>
+            <hr class="style18"/>
+            
+            @{
+                List<ITEM> ls;
+                List<ITEM> items = ViewBag.Items;
+                List<CATEGORY> cat = ViewBag.Categories;
+                foreach (CATEGORY c in cat)
+                {
+                    ls = items.Where(i => i.CAT_ID == c.CAT_ID).OrderBy(i => i.ITEM_ID).ToList();
+                    <h3 class='catH main-text text-center heading'>@c.NAME</h3>
+                        <div class='container item'>
+                            <div class='row'>
+                            @foreach (ITEM item in ls)
+                            {
+                                <div class='col-md-3 col-xs-11 col-sm-3 col-lg-3 text-center service-item'>
+                                    <h2 class='service'>@item.NAME</h2>
+                                    <img class='img-responsive img-circle service-img greyScale' src='@item.PICTURE'/>
+                                    <div class='price'>@item.PRICE</div>
+                                    <div class='caption'>
+                                        <p><span class='service desc'>Description</span>@item.DESCRIPTION</p>
+                                        @if (item.NAME.Equals("Special"))
+                                        {
+                                            <p style="text-align:center"><b>Small: </b> Rs. 540<br /><b> Large: </b>Rs. 1000</p>
+                                        }
+                                    </div>
+                                </div>   
+                            }
+                            @if(c.NAME.Equals("Pizza"))
+                            {
+                                <div id='pizza-size' style='padding:10px;box-shadow: 0px 0px 0px yellowgreen;' class='col-md-10 col-xs-11 col-sm-10 text-center service-item'>
+                                <p style='margin:10px 5px 5px 5px; font-size:1em;width:100%;text-align:center' class='main-text'>Above mentioned Pizza prices are for medium sized pizza only.</p>
+                                <table id='pizza-table' class='simpleTable'><tr>
+                                        "<th>Small - 6"</th>
+                                        "<th>Medium - 9"</th>
+                                        "<th>Large - 13"</th></tr>
+                                        "<tr><td>Rs. 500</td>
+                                        "<td>Rs. 650</td>
+                                        "<td>Rs. 900</td>
+                                        "</tr>
+                                    </table>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                    <hr class='divider'/>
+                }
+            }
+        </div>			
+    </div>

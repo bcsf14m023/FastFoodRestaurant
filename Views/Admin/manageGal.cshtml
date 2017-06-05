@@ -1,0 +1,296 @@
+@using FastFoodRestaurant.Models;
+@{
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section css{
+	<link href="~/Content/gallery.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/itemForm.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/modalImgAdmin.css" rel="stylesheet" type="text/css">
+	<link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background-image: url("../../../images/carousel/4.jpg");
+		}
+	</style>
+}    
+@section script{
+	<script>
+		//to remove page numbers on refresh as 1st page is loaded by default
+		var sPageURL = decodeURIComponent(window.location);
+		var newUrl = sPageURL.split('#')[0];
+		if (sPageURL !== newUrl)
+			window.location = newUrl;
+
+		var reload = 0, page = @ViewBag.Page;
+		$(document).ready(function () {			//To close modal on ESC
+
+			$(document).on('click', ".gallImg", f1);
+
+			//For page number
+			$(document).on('click', ".page", function () {
+				var pageNo = $(this).text();
+				if (pageNo !== page || reload === 1)
+				{   //if clicked page is other then current page
+					reload = 0;
+					$('.page').removeClass("page-active");
+					$(this).addClass("page-active");
+					page = $('.page-active').text();
+
+					$.get("/Admin/RefreshManageGal?page=" + pageNo, function (response) {
+						$('.gallery .row').html("");
+						$('.gallery .row').append(response);
+					});
+				}
+			});
+
+			function refreshPageCountLinks() {
+				$.get("/Admin/RefreshManageGalPageCount?page=" + page, function (response) {
+					$('.page-no').html("");
+					$('.page-no').html(response);
+				});
+			}
+
+			var delItem;
+			var delB;
+			$(document).on('click', ".delB", function () {
+				confirmModal('Delete Confirmation', 'Are you sure you want to delete this image?');
+				delItem = $(this).parent();
+				delB = $(this);
+			});
+
+			$('#logout').click(function () {
+				confirmModal("Logout Confirmation", "Are you sure you want to LOGOUT?");
+			});
+
+			$('#no').click(function () {
+				$('#confirmDialog').modal('hide');
+			});
+
+			$('#yes').click(function () {
+				$('#confirmDialog').modal('hide');
+
+				//Without timeout new model is opened before confirmDialog
+				// is closed due to which everytime 17px right-padding is added in body
+				//to solve this timeout is used here
+
+				setTimeout(function () {
+					var chPT = 'Update Password Confirmation';
+					var logout = 'Logout Confirmation';
+					var delImg = 'Delete Confirmation';
+					// alert($('#confirmTitle').text());
+
+					if ($('#confirmTitle').text() === chPT) {
+						var old = $('#oldPassword').val();
+						var newP = $('#newPassword').val();
+						var confirm = $('#confirmPassword').val();
+						changePassword(old, newP, confirm);
+					}
+					else if ($('#confirmTitle').text() === logout) {
+						
+						$.get("Logout", function (response) {
+							if (response.rv == 1) {
+								successModal("Task successful", "Now you are logged out.<br/>Redirecting....");
+								setTimeout(function () {
+									window.location.href = '/Home/Index';
+								}, 1000);
+							}
+							else if (response.rv == 0) {   // Session Expired
+								failureModal('Error', response.text);
+								setTimeout(function () {
+									window.location.href = '/Home/NoLogin';
+								}, 1000);
+							}
+						});
+					}
+					else if ($('#confirmTitle').text() === delImg) {
+						var id = delB.val();
+						//Write Code Here for deleting IMAGE
+						$.get("/Admin/DeleteGalImg?id=" + id, function (response) {
+							console.log(response);
+							if (response.rv == 1)
+							{
+								//without this page margin and padding will disturb on each deletion
+								setTimeout(function () {
+									successModal("Task successful", "Image deleted from database.");
+								}, 500);
+								//To display newly uploaded image if it is last page and refreshPageCount
+								delItem.css("display", "none");
+								delItem = null;
+
+								refreshPageCountLinks();
+
+								//To reload page if no more images are left on last page and it is removed
+								reload = 1;    //to load 15 images again as after deletion there will be 14 images
+
+								//without this timeout if last page is deleted then it will not refresh
+								//because refreshing pages using ajax takes some time and it will execute before refreshing
+								setTimeout(function ()
+								{
+									$('.page-active').trigger('click');
+								}, 500);
+							}
+							else if (response.rv == 0) {   // Session Expired
+								failureModal('Error', response.text);
+								setTimeout(function () {
+									window.location.href = '/Home/NoLogin';
+								}, 1000);
+							}
+							else
+								failureModal("Error", response.text);
+						});
+						delB = null;
+					}
+				}, 300);
+			});
+
+			$('#addImgForm').submit(function (e) {
+				e.preventDefault();
+				var $form = $(this);
+
+				$.ajax({
+					type: "POST",
+					url: "/Admin/UploadGalImg",
+					async: true,
+					data: new FormData(this),
+					contentType: false,
+					processData: false,
+					success: function (response) {
+						if (response.rv == 1) {
+							$('#addImg').modal('hide');
+
+							setTimeout(function () {
+								successModal("Operation successful", response.text);
+							}, 500);
+
+							document.getElementById("addImgForm").reset();
+
+							//To display newly uploaded image if it is last page and refreshPageCount
+							refreshPageCountLinks();
+							reload = 1;
+							//here timeout is not needed because we want to refresh current page
+							//even if new page is added we don;t want to open it
+							$('.page-active').trigger('click');
+						}
+						else if (response.rv == 0) {   // Session Expired
+							failureModal('Error', response.text);
+							setTimeout(function () {
+								window.location.href = '/Home/NoLogin';
+							}, 1000);
+						}
+						else {
+							failureModal('Error', response.text);
+						}
+					}
+				});
+			});
+
+			$(document).keydown(function (event) {			//To close modal on ESC
+				if (event.keyCode == 27) {
+					$('#myModal').css('display', 'none');
+				}
+			});
+		});
+		function f1() {
+			var modal = document.getElementById('myModal');
+			var lnk = $(this).attr('src');
+			modal.style.display = "block";
+			$("#imgModal").attr('src', lnk);
+		}
+</script>
+
+}
+	
+	<div class="bgColor">
+		<div class="container mainCon">
+						
+			<h2 id ="aboutH" class="text-center heading">Manage Gallery</h2>
+			<hr class="style18"/>
+			
+			<div class="row">
+				<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center add-b-row">
+					<button class="btn-success addB" type="button" data-toggle="modal" data-target="#addImg">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+							 Add Image
+					</button>
+				</div>
+			</div>
+			<div class="container gallery">
+				<div class="row">
+					@{
+						foreach (GALLERY g in ViewBag.Gal)
+						{
+							<div class="col-md-4 col-xs-12 col-sm-6 col-lg-4 gal-img-div text-center">
+								<img class='gallImg img-thumbnail img-responsive' src='@g.PICTURE' />
+								<button class='btn-danger delB' value='@g.GAL_ID' type='button'><span class='glyphicon glyphicon-remove'></span> Delete</button>
+							</div>
+						}
+					}
+				</div>
+			</div>
+			<div class="page-no">
+			   @{
+					int i = 1;
+					int n = (int)ViewBag.PageCount, active = (int)ViewBag.Page;
+					bool lastPage = false;     //make activePage active again if it is still present
+					if (n < active)
+					{
+						lastPage = true;      //make lastPage active if pages are now decreased and last page was active before
+					}
+
+					string pageActive = "";
+					if (n != 0)
+					{
+						while (i <= n)
+						{
+							@*To make one page active*@
+							if (i == active && !lastPage)      //make active page active again
+							{
+								pageActive = "page-active";
+							}
+							else if (i == n && lastPage)      //make last page active as previous active page is no-more present
+							{
+								pageActive = "page-active";
+							}
+
+							<a href='#?page=@i'><span class='page @pageActive'> @i</span></a>
+							pageActive = "";
+							i++;
+						}
+					}
+				}
+			</div>
+		</div>						
+	</div>
+ -->
+	<div id="addImg" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header"  style="background-color:cadetblue;color: black;text-align: center; font-size: 2em;font-weight: 700">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Add Image</h4>
+			</div>
+			<div class="modal-body">
+				@using (Html.BeginForm("UploadGalImg", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addImgForm", name = "addImgForm", @class = "modalForm text-center" }))
+				{
+					<center>
+						<label style='width:30%' for="image">Upload Image</label>
+						@Html.TextBox("image", "", new { type = "file", id = "image", required = true })
+						<br />
+						<button type="submit" class="btn-primary" form="addImgForm" name="addImgB" id="addImgB">Add Image</button>
+					</center>
+				}
+			</div>
+		</div>
+		</div>
+	</div>
+	<!--For displaying images in pop-up on Click-->
+	<div id="myModal" class="modal">
+
+		<!-- The Close Button -->
+		<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+		<!-- Modal Content (The Image) -->
+		<img class="modal-content text-center" id="imgModal" src="#">
+	</div>

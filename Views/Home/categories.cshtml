@@ -1,0 +1,84 @@
+@using FastFoodRestaurant.Models;
+@model List<CATEGORY>
+
+@section css{
+    <link href="~/Content/categories.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background-image: url("../../../images/carousel/5.jpg");
+        }
+    </style>
+}
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            $(".service-item").mouseover(function () {
+                $(this).find('.service-img').removeClass('greyScale');
+                $(this).find('.service-img').addClass('addColor');
+                $(this).find('.caption').slideDown(500);
+            });
+            $(".service-item").mouseleave(function () {
+                $(this).find('.service-img').removeClass('addColor');
+                $(this).find('.service-img').addClass('greyScale');
+                $(this).find('.caption').slideUp(100);
+            });
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+        });
+    </script>
+}
+<div class="bgColor">
+    <div id="mainCon" class="container">
+        <h2 id="aboutH" class="text-center heading">Menu Categories</h2>
+        <hr class="style18" />
+
+        <div class="container">
+            @{
+                int count = 1;
+                int row = 0;
+                int last = Model.Count;
+                string s = "";
+                string rowStart = "<div class='row'>";
+                string rowEnd = "</div>";
+                foreach (var c in Model)
+                {
+                    if (count == last && count % 2 == 1)
+                    {//for last item if it is odd then we have to center it
+                        s = "last-item";
+                    }
+                    else
+                    {
+                        s = "";
+                    }
+
+                    if (count % 2 == 1)
+                    {
+                        @Html.Raw(rowStart)
+                    }
+                    <a href='/Home/Items?cat=@c.CAT_ID'>
+                        <div class='col-md-5 col-xs-12 col-sm-5 col-lg-5 text-center service-item @s'>
+                            <h2 class='service'>@c.NAME</h2>
+                            <img class='img-responsive img-circle service-img greyScale' src='@c.PICTURE' />
+                        </div>
+                    </a>
+                    if (count % 2 == 0)
+                    {
+                        @Html.Raw(rowEnd)
+                    }
+                    count++;
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+@section css{
+    <link href="~/Content/carousel.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .navbar-fixed-top {
+            -webkit-box-shadow: -1px 52px 144px 23px rgba(0,0,0,0.5);
+            -moz-box-shadow: -1px 52px 144px 23px rgba(0,0,0,0.5);
+            box-shadow: -1px 52px 144px 23px rgba(0,0,0,0.5);
+        }
+
+        #footerImg {
+            -webkit-box-shadow: -1px -12px 144px 23px rgba(0,0,0,0.5);
+            -moz-box-shadow: -1px -12px 144px 23px rgba(0,0,0,0.5);
+            box-shadow: -1px -12px 144px 23px rgba(0,0,0,0.5);
+        }
+    </style>
+
+}
+
+@section script {
+<script>
+        $(document).ready(function () {
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+        });
+</script>
+
+}
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+				<li data-target="#myCarousel" data-slide-to="3"></li>
+				<li data-target="#myCarousel" data-slide-to="4"></li>
+				<li data-target="#myCarousel" data-slide-to="5"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<img src="~/images/carousel/0.jpg" alt="Pizza" height="730">
+					<div class="carousel-caption">
+						<h3>Delicious Pizza</h3>
+						<p>We make delicious and healthy pizzas for you.</p>
+					</div>      
+				</div>
+				<div class="item">
+					<img src="~/images/carousel/1.jpg" alt="Burger" height="730">
+					<div class="carousel-caption">
+						<h3>Mighty Burger</h3>
+						<p>We make delicious and healthy burgers for you.</p>
+					</div>      
+				</div>
+				<div class="item ">
+					<img src="~/images/carousel/2.jpg" alt="Sandwiches" width="auto" height="730">
+					<div class="carousel-caption">
+						<h3>Special Sandwich</h3>
+						<p>We make delicious and healthy food for you.</p>
+					</div>      
+				</div>
+				<div class="item">
+					<img src="~/images/carousel/3.jpg" alt="Baked Chiken Sticks" height="730">
+					<div class="carousel-caption">
+						<h3>Baked Chiken Sticks</h3>
+						<p>We make delicious and healthy food for you.</p>
+					</div>      
+				</div>
+				<div class="item ">
+					<img src="~/images/carousel/4.jpg" alt="Paratha Roll" height="730">
+					<div class="carousel-caption">
+						<h3>Delicious Paratha Roll</h3>
+						<p>We make delicious and healthy food for you.</p>
+					</div>      
+				</div>
+				<div class="item">
+					<img src="~/images/carousel/5.jpg" alt="Pizza" height="500px" height="730">
+					<div class="carousel-caption">
+						<h3>Delicious Pizza</h3>
+						<p>We make delicious and healthy pizzas for you.</p>
+					</div>
+				</div>
+		</div>
+				
+		<!-- Left and right controls -->
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+	<script type="text/javascript">
+		$('#myCarousel').carousel({
+			interval: 3000
+		});
+	</script>

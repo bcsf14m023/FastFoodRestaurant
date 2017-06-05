@@ -1,0 +1,115 @@
+﻿@section css{
+    <link href="~/Content/contact.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">
+    <style>
+        .right-panel {
+            margin: auto 28%;
+        }
+
+        body {
+            background-image: url("../../../images/carousel/3.jpg");
+        }
+    </style>
+}
+@section script{
+    <script>
+        $(document).ready(function(){
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+            $(document).on('submit',".contact-form",function(e){
+                e.preventDefault();
+
+                var $form = $(this);
+                var name=$("#name");
+                var email=$("#email");
+                var message=$("#message");
+                if(name == "" || email == "" || message == "")
+                    failureModal('Error: Incomplete fields',"Please enter all required fields.");
+                else{
+                    successModal("Processing Request","Sending mail...");
+                    $.post($form.attr("action"), $form.serialize(), function (response) {
+                        console.log(response);
+                        alert(response.rv);
+                        $('#successDialog').modal('hide');
+                        setTimeout(function(){
+                            if (response.rv == 1){
+                                successModal("Task Successful","Your message is sent successfully...<br/>We will reply soon.");
+                                $('.contact-form')[0].reset();
+                            }
+                            else{
+                                failureModal('Error: Email Failed',response.excp);
+                            }
+                        },400);
+                    });
+                }
+            });
+        });
+    </script>
+}
+    <div class="bgColor">
+        <div id="mainCon" class="container">
+            <h2 id ="aboutH" class="text-center heading">Contact Us</h2>
+            <hr class="style18"/>
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-xs-12 col-sm-6 left-panel">
+                        <p class="main-text">Please feel free to contact us about any suggestion, complain or query related to our services and food.</p>
+                        <table class="contactInfo contact-text">
+                            <col width="40%">
+                            <col width="60%">
+                            <tr>
+                                    <td class="contact-title">&nbsp&nbsp&nbsp&nbsp&nbspAddress:</td><td class="info">Wahdat Road, New Muslim Town Lahore </td>
+                            </tr>
+                            <tr>
+                                    <td class="contact-title" rowspan="2">
+                                            <span class="glyph glyphicon glyphicon-earphone"></span>Mobile:
+                                    </td>
+                                    <td class="info">+92-300-4567654</td>
+                            </tr>
+                            <tr>
+                                <td class="info">+92-312-4567654</td>
+                            </tr>
+                            <tr>
+                                    <td class="contact-title">
+                                            <span class="glyph glyphicon glyphicon-phone-alt"></span>Landline:
+                                    </td>
+                                    <td class="info">+92-423-7509875</td>
+                            </tr>
+                            <tr>
+                                    <td class="contact-title">
+                                            <span class="glyph glyphicon glyphicon-time"></span>Timing:
+                                    </td>
+                                    <td class="info">12PM - 2AM</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="col-md-5 col-xs-12 col-sm-5 text-center right-panel" style="margin:2%">
+                        <h2 id ="formH" class="form-heading ">Give Feedback</h2>
+                        <form class="contact-form" action="/Home/ContactMail" method="POST">
+                            <div class="row">
+                                <input id="name" placeholder="Your Name" class="input" name="name" type="text" value="" size="30" required=""/><br />
+                            </div>
+                            <div class="row">
+                                <input id="email" placeholder="Your Email" class="input" name="email" type="text" value="" size="30" required=""/><br />
+                            </div>
+                            <div class="row">
+                                <textarea id="message" placeholder="Your Message" class="input" name="message" rows="8" cols="30" required=""></textarea><br />
+                            </div>
+                            <input id="submit_button" class="btn-primary" type="submit" value="Submit Feedback" />
+                        </form>						
+                    </div>                    
+                </div>                        
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,39 @@
+@section css{
+    <link href="~/Content/about.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/logo.css" rel="stylesheet" type="text/css">        
+    <style>
+        body {
+            background-image: url("../../../images/carousel/1.jpg");
+        }
+    </style>
+}
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('#navDrop').hover(function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideDown(500);
+            }, function () {
+                $(this).find('.dropdown-menu').stop(true, true).slideUp(200);
+            });
+            $('#menuDrop').mouseover(function () {
+                $(this).parent().css("background-color", "rgba(200,200,200,.2)");
+            });
+            $('#menuDrop').mouseleave(function () {
+                $(this).parent().css("background-color", "");
+            });
+        });
+    </script>
+
+}
+
+<div class="bgColor">
+    <div class="container">
+
+            <h2 id ="aboutH" class="text-center heading">About Us</h2>
+            <hr class="style18"/>
+            <p class="main-text">Food, fun & Festivity, this is what we provide the ultimate chicken meals for a chicken loving nation. Be it colonel sanders secret original recipe chicken or the hot & spicy version, every bite brings a yum on our face. At Fast Food Restaurant we can proudly say, "We do Fast Food right".</p>
+            <p class="main-text">Perfecting our secret recipe has come a long way. With many outlets across the country, we have maintained our title, for the last few years, of being the fast food Experts. Opening the first outlet in New Muslim Town. We wore the title of being the market leader in its industry. Serving delicious and hygienic food in a relaxing environment made Fast Food Restaurant everyone's favorite. Since then, we have been constantly introducing new products and opening new restaurants for its customers.</p>
+
+    </div>
+</div>
